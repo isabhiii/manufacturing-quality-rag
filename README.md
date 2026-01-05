@@ -4,7 +4,8 @@ A production oriented RAG system designed to reduce information retrieval time i
 
 ### Demo video file included:
 
-https://github.com/isabhiii/manufacturing-quality-rag/blob/main/demo_video.mp4?raw=true
+<video src="demo_video.mp4" controls="controls" style="max-width: 100%;">
+</video>
 
 ## Architecture
 
