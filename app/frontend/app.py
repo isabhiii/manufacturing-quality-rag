@@ -177,7 +177,7 @@ if "synced" not in st.session_state:
 # --- Actions ---
 def check_connection():
     try:
-        resp = requests.get(f"{st.session_state.api_url}/health", timeout=1)
+        resp = requests.get(f"{st.session_state.api_url}/health", timeout=3)
         return "LINKED" if resp.status_code == 200 else "OFFLINE"
     except:
         return "DISCONNECTED"
