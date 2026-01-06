@@ -10,15 +10,15 @@ class Settings(BaseSettings):
     DOCS_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(BASE_DIR))), "data", "docs")
     INDEX_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(BASE_DIR))), "data", "index")
     
-    # RAG Settings
-    CHUNK_SIZE: int = 500
-    CHUNK_OVERLAP: int = 50
-    EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
-    VECTOR_DB_K: int = 5
+    # RAG Settings (Increased for better context retention)
+    CHUNK_SIZE: int = 1000
+    CHUNK_OVERLAP: int = 150
+    EMBEDDING_MODEL: str = "sentence-transformers/all-mpnet-base-v2"
+    VECTOR_DB_K: int = 8
     
     # LLM Settings
-    GOOGLE_API_KEY: str = "" # Set via .env file
-    LLM_MODEL: str = "gemini-2.0-flash" # Latest Flash model
+    GOOGLE_API_KEY: str = "AIzaSyDu-YOROl8CWcRT7Fm9bLZv5Z2YXrygcAw"
+    LLM_MODEL: str = "gemini-2.0-flash" 
     
     class Config:
         env_file = ".env"
