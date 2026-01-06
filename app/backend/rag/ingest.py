@@ -76,10 +76,10 @@ def ingest_docs():
     docs = load_documents(settings.DOCS_DIR)
     chunks = chunk_documents(docs)
     
-    # Optional: Clear existing index if doing a full re-index
-    # For now, we appends. Ideally we might want to clean `settings.INDEX_DIR` first
-    # if os.path.exists(settings.INDEX_DIR):
-    #     shutil.rmtree(settings.INDEX_DIR)
+    # Clear existing index to ensure it stays in sync with docs on disk
+    if os.path.exists(settings.INDEX_DIR):
+        logger.info(f"Clearing existing index at {settings.INDEX_DIR}")
+        shutil.rmtree(settings.INDEX_DIR)
         
     index_chunks(chunks, settings.INDEX_DIR)
     logger.info("Ingestion complete.")

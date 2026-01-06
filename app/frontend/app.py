@@ -161,10 +161,18 @@ header { background: transparent !important; }
 # --- Session State ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
-if "indexed_files" not in st.session_state:
-    st.session_state.indexed_files = []
 if "api_url" not in st.session_state:
     st.session_state.api_url = DEFAULT_API_URL
+
+# Sync indexed_files with backend on startup
+if "synced" not in st.session_state:
+    try:
+        resp = requests.get(f"{st.session_state.api_url}/admin/files")
+        if resp.status_code == 200:
+            st.session_state.indexed_files = resp.json().get("files", [])
+            st.session_state.synced = True
+    except:
+        st.session_state.indexed_files = []
 
 # --- Actions ---
 def clean_answer(text):
@@ -207,12 +215,18 @@ with st.sidebar:
                 st.markdown(f'<div class="file-card-box">{ICON_FILE} <span style="font-size:0.8rem; font-weight:600;">{fname}</span></div>', unsafe_allow_html=True)
             with col2:
                 if st.button("×", key=f"del_{i}"):
-                    st.session_state.indexed_files.pop(i)
+                    try:
+                        requests.delete(f"{st.session_state.api_url}/admin/files/{fname}")
+                        st.session_state.indexed_files.pop(i)
+                    except: pass
                     st.rerun()
         
         st.markdown('<div style="height:2rem;"></div>', unsafe_allow_html=True)
         if st.button("CLEAR ALL", use_container_width=True):
-            st.session_state.indexed_files = []
+            try:
+                requests.delete(f"{st.session_state.api_url}/admin/files")
+                st.session_state.indexed_files = []
+            except: pass
             st.rerun()
 
 # --- Main App ---
